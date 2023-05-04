@@ -28,13 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.agg = new System.Windows.Forms.Button();
+            this.contacampi = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // agg
+            // 
+            this.agg.Location = new System.Drawing.Point(12, 48);
+            this.agg.Name = "agg";
+            this.agg.Size = new System.Drawing.Size(234, 23);
+            this.agg.TabIndex = 0;
+            this.agg.Text = "Aggiunta \'Mio valore\' e \'Cancellazione logica\'";
+            this.agg.UseVisualStyleBackColor = true;
+            this.agg.Click += new System.EventHandler(this.agg_Click);
+            // 
+            // contacampi
+            // 
+            this.contacampi.Location = new System.Drawing.Point(13, 78);
+            this.contacampi.Name = "contacampi";
+            this.contacampi.Size = new System.Drawing.Size(233, 23);
+            this.contacampi.TabIndex = 1;
+            this.contacampi.Text = "Numero Campi";
+            this.contacampi.UseVisualStyleBackColor = true;
+            this.contacampi.Click += new System.EventHandler(this.contacampi_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.contacampi);
+            this.Controls.Add(this.agg);
             this.Name = "Form1";
             this.Text = "Elaborazione dati CSV";
             this.ResumeLayout(false);
@@ -42,6 +66,9 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Button agg;
+        private System.Windows.Forms.Button contacampi;
     }
 }
 
