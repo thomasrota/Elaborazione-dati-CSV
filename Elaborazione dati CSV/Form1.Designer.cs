@@ -30,6 +30,7 @@
         {
             this.agg = new System.Windows.Forms.Button();
             this.contacampi = new System.Windows.Forms.Button();
+            this.RecordLenght = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // agg
@@ -52,11 +53,22 @@
             this.contacampi.UseVisualStyleBackColor = true;
             this.contacampi.Click += new System.EventHandler(this.contacampi_Click);
             // 
+            // RecordLenght
+            // 
+            this.RecordLenght.Location = new System.Drawing.Point(12, 107);
+            this.RecordLenght.Name = "RecordLenght";
+            this.RecordLenght.Size = new System.Drawing.Size(234, 23);
+            this.RecordLenght.TabIndex = 2;
+            this.RecordLenght.Text = "Lunghezza massima record";
+            this.RecordLenght.UseVisualStyleBackColor = true;
+            this.RecordLenght.Click += new System.EventHandler(this.RecordLenght_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.RecordLenght);
             this.Controls.Add(this.contacampi);
             this.Controls.Add(this.agg);
             this.Name = "Form1";
@@ -69,6 +81,7 @@
 
         private System.Windows.Forms.Button agg;
         private System.Windows.Forms.Button contacampi;
+        private System.Windows.Forms.Button RecordLenght;
     }
 }
 
