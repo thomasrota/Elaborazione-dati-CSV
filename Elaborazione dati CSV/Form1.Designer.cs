@@ -31,6 +31,8 @@
             this.agg = new System.Windows.Forms.Button();
             this.contacampi = new System.Windows.Forms.Button();
             this.RecordLenght = new System.Windows.Forms.Button();
+            this.Rcamp = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // agg
@@ -63,17 +65,37 @@
             this.RecordLenght.UseVisualStyleBackColor = true;
             this.RecordLenght.Click += new System.EventHandler(this.RecordLenght_Click);
             // 
+            // Rcamp
+            // 
+            this.Rcamp.Location = new System.Drawing.Point(12, 184);
+            this.Rcamp.Name = "Rcamp";
+            this.Rcamp.Size = new System.Drawing.Size(101, 23);
+            this.Rcamp.TabIndex = 3;
+            this.Rcamp.Text = "Ricerca Campo";
+            this.Rcamp.UseVisualStyleBackColor = true;
+            this.Rcamp.Click += new System.EventHandler(this.Rcamp_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(13, 158);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 4;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.Rcamp);
             this.Controls.Add(this.RecordLenght);
             this.Controls.Add(this.contacampi);
             this.Controls.Add(this.agg);
             this.Name = "Form1";
             this.Text = "Elaborazione dati CSV";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -82,6 +104,8 @@
         private System.Windows.Forms.Button agg;
         private System.Windows.Forms.Button contacampi;
         private System.Windows.Forms.Button RecordLenght;
+        private System.Windows.Forms.Button Rcamp;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

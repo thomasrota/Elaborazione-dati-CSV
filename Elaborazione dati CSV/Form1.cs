@@ -58,6 +58,16 @@ namespace Elaborazione_dati_CSV
             MessageBox.Show($"La lunghezza massima del record è di {lMaxRecord} caratteri!");
             MessageBox.Show($"La lunghezza massima per ogni campo è di: {valori} caratteri");
         }
+        private void Rcamp_Click(object sender, EventArgs e)
+        {
+            string ricerca = RicercaCampo(int.Parse(textBox1.Text));
+            if (ricerca == "f")
+            {
+                MessageBox.Show("Elemento non trovato!, ERRORE");
+            }
+            else
+                MessageBox.Show($"{ricerca}");
+        }
         #endregion
         #region Funzioni di Servizio
         // Aggiungere, in coda ad ogni record, un campo chiamato "miovalore", contenente un numero casuale compreso tra 10<=X<=20 ed un campo per marcare la cancellazione logica;
@@ -101,7 +111,6 @@ namespace Elaborazione_dati_CSV
             }
             return nCampi;
         }
-
         // Calcolare la lunghezza massima dei record presenti (avanzato: indicando anche la lunghezza massima di ogni campo);
         public int LunghezzaMaxRecord()
         {
@@ -139,9 +148,27 @@ namespace Elaborazione_dati_CSV
             }
             return campiL;
         }
-        // Inserire in ogni record un numero di spazi necessari a rendere fissa la dimensione di tutti i record, senza perdere informazioni. 
+        // Inserire in ogni record un numero di spazi necessari a rendere fissa la dimensione di tutti i record, senza perdere informazioni.
         // Aggiungere un record in coda;
         // Ricercare un record per campo chiave a scelta (se esiste, utilizzare il campo che contiene dati univoci);
+        public string RicercaCampo(int m)
+        {
+            using (StreamReader sr = File.OpenText(path))
+            {
+                string linea;
+                linea = sr.ReadLine();
+                while ((linea = sr.ReadLine()) != null)
+                {
+                    string[] campo = linea.Split(';');
+                    int nric = int.Parse(campo[0]);
+                    if (m == nric)
+                    {
+                        return linea;
+                    }
+                }
+            }
+            return "f";
+        }
         // Modificare  un record;
         // Cancellare logicamente un record;
         // Visualizzare dei dati mostrando tre campi significativi a scelta;
