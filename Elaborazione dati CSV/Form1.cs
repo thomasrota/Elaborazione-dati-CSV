@@ -76,9 +76,21 @@ namespace Elaborazione_dati_CSV
             else
             {
                 CancellazioneLogica(ric);
-                listView1.Clear();
-                Visualizza();
             }
+            listView1.Clear();
+            Visualizza();
+        }
+        private void Racqu_Click(object sender, EventArgs e)
+        {
+            int ric = RicercaReacq(textBox1.Text);
+            if (ric == -1)
+                MessageBox.Show("Elemento non trovato!", "ERRORE");
+            else
+            {
+                Reacquisizione(ric);
+            }
+            listView1.Clear();
+            Visualizza();
         }
         #endregion
         #region Funzioni di Servizio
@@ -240,6 +252,53 @@ namespace Elaborazione_dati_CSV
                         else
                         {
                             sw.WriteLine(s);   
+                        }
+                    }
+                }
+            }
+            File.Delete(path);
+            File.Move(pathTEMP, path);
+            File.Delete(pathTEMP);
+        }
+        public int RicercaReacq(string nome)
+        {
+            int pos = -1;
+            using (StreamReader sr = File.OpenText(path))
+            {
+                string s;
+                int riga = 0;
+                while ((s = sr.ReadLine()) != null)
+                {
+                    riga++;
+                    string[] dati = s.Split(';');
+                    if (dati[0] == nome)
+                    {
+                        pos = riga;
+                        break;
+                    }
+                }
+            }
+            return pos;
+        }
+        public void Reacquisizione(int posizione)
+        {
+            using (StreamReader sr = File.OpenText(path))
+            {
+                string s;
+                using (StreamWriter sw = new StreamWriter(pathTEMP, append: true))
+                {
+                    int riga = 0;
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        riga++;
+                        string[] dati = s.Split(';');
+                        if (riga != posizione)
+                        {
+                            sw.WriteLine(s);
+                        }
+                        else
+                        {
+                            sw.WriteLine($"{dati[0]};{dati[1]};{dati[2]};{dati[3]};{dati[4]};{dati[5]};{dati[6]};{dati[7]};{dati[8]};{dati[9]};0;");
                         }
                     }
                 }

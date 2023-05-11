@@ -36,6 +36,7 @@
             this.listView1 = new System.Windows.Forms.ListView();
             this.CancLogica = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.Racqu = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // agg
@@ -114,11 +115,22 @@
             this.label1.Text = "Inserire il numero del municipio che si vuole cercare/cancellare (campo chiave sc" +
     "elto)";
             // 
+            // Racqu
+            // 
+            this.Racqu.Location = new System.Drawing.Point(225, 213);
+            this.Racqu.Name = "Racqu";
+            this.Racqu.Size = new System.Drawing.Size(100, 23);
+            this.Racqu.TabIndex = 8;
+            this.Racqu.Text = "Reacquisizione";
+            this.Racqu.UseVisualStyleBackColor = true;
+            this.Racqu.Click += new System.EventHandler(this.Racqu_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.Racqu);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CancLogica);
             this.Controls.Add(this.listView1);
@@ -144,6 +156,7 @@
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Button CancLogica;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button Racqu;
     }
 }
 
