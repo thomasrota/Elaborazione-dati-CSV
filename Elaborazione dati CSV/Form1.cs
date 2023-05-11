@@ -31,7 +31,7 @@ namespace Elaborazione_dati_CSV
             {
                 File.Create(path);
             }
-            Visualizza(path);
+            Visualizza();
         }
         private void agg_Click(object sender, EventArgs e)
         {
@@ -148,6 +148,21 @@ namespace Elaborazione_dati_CSV
             }
             return campiL;
         }
+        public string[] NomeCampi()
+        {
+            string[] nomi = new string[11];
+            string linea;
+            using (StreamReader sr = File.OpenText(path))
+            {
+                linea = sr.ReadLine();
+                string[] campo = linea.Split(';');
+                for (int i = 0; i < nomi.Length; i++)
+                {
+                    nomi[i] = campo[i];
+                }
+            }
+            return nomi;
+        }
         // Inserire in ogni record un numero di spazi necessari a rendere fissa la dimensione di tutti i record, senza perdere informazioni.
         // Aggiungere un record in coda;
         // Ricercare un record per campo chiave a scelta (se esiste, utilizzare il campo che contiene dati univoci);
@@ -172,33 +187,34 @@ namespace Elaborazione_dati_CSV
         // Modificare  un record;
         // Cancellare logicamente un record;
         // Visualizzare dei dati mostrando tre campi significativi a scelta;
-        public void Visualizza(string filePath)
+        public void Visualizza()
         {
-            /*
-            using (StreamReader sr = File.OpenText(filePath))
+            string[] colonne = NomeCampi();
+            using (StreamReader sr = File.OpenText(path))
             {
                 string linea;
-                Lista.View = View.Details;
-                Lista.Columns.Add("Nome", 108, HorizontalAlignment.Left);
-                Lista.Columns.Add("Prezzo", 108, HorizontalAlignment.Left);
-                Lista.Columns.Add("Quantità", 108, HorizontalAlignment.Left);
-                Lista.GridLines = true;
+                listView1.View = View.Details;
+                for(int i = 0; i < colonne.Length - 1; i++)
+                {
+                    listView1.Columns.Add(colonne[i], 108, HorizontalAlignment.Center);
+                }
+                listView1.GridLines = true;
                 while ((linea = sr.ReadLine()) != null)
                 {
                     string[] dati = linea.Split(';');
-                    if (dati[3] == "0")
+                    if (dati[10] == "0")
                     {
-                        float prezzo = float.Parse(dati[1]);
                         ListViewItem newItem = new ListViewItem();
                         newItem.Text = dati[0];
-                        newItem.SubItems.Add(prezzo.ToString("0.00") + "€");
-                        newItem.SubItems.Add(dati[2]);
-                        Lista.Items.Add(newItem);
+                        for (int j = 1; j < colonne.Length - 1; j++)
+                        {
+                            newItem.SubItems.Add(dati[j]);
+                        }
+                        listView1.Items.Add(newItem);
                     }
                 }
                 sr.Close();
             }
-            */
         }
         #endregion
     }
