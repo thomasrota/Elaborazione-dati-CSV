@@ -68,6 +68,18 @@ namespace Elaborazione_dati_CSV
             else
                 MessageBox.Show($"{ricerca}");
         }
+        private void CancLogica_Click(object sender, EventArgs e)
+        {
+            int ric = Ricerca(int.Parse(textBox1.Text));
+            if (ric == -1)
+                MessageBox.Show("Elemento non trovato!", "ERRORE");
+            else
+            {
+                CancellazioneLogica(ric);
+                listView1.Clear();
+                Visualizza();
+            }
+        }
         #endregion
         #region Funzioni di Servizio
         // Aggiungere, in coda ad ogni record, un campo chiamato "miovalore", contenente un numero casuale compreso tra 10<=X<=20 ed un campo per marcare la cancellazione logica;
@@ -139,7 +151,7 @@ namespace Elaborazione_dati_CSV
                 while ((linea = sr.ReadLine()) != null)
                 {
                     string[] campo = linea.Split(';');
-                    for(int j = 0; j < campo.Length; j++)
+                    for (int j = 0; j < campo.Length; j++)
                     {
                         if (campo[j].Length > campiL[j])
                             campiL[j] = campo[j].Length;
@@ -186,6 +198,56 @@ namespace Elaborazione_dati_CSV
         }
         // Modificare  un record;
         // Cancellare logicamente un record;
+        public int Ricerca(int nome)
+        {
+            int pos = -1;
+            using (StreamReader sr = File.OpenText(path))
+            {
+                string s;
+                int riga = 0;
+                while ((s = sr.ReadLine()) != null)
+                {
+                    riga++;
+                    string[] dati = s.Split(';');
+                    if (dati[10] == "0")
+                    {
+                        if (int.Parse(dati[0]) == nome)
+                        {
+                            pos = riga;
+                            break;
+                        }
+                    }
+                }
+            }
+            return pos;
+        }
+        public void CancellazioneLogica(int posizione)
+        {
+            using (StreamReader sr = File.OpenText(path))
+            {
+                string s;
+                using (StreamWriter sw = new StreamWriter(pathTEMP, append: true))
+                {
+                    int riga = 0;
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        riga++;
+                        string[] dati = s.Split(';');
+                        if (riga == posizione)
+                        {
+                            sw.WriteLine($"{dati[0]};{dati[1]};{dati[2]};{dati[3]};{dati[4]};{dati[5]};{dati[6]};{dati[7]};{dati[8]};{dati[9]};1;");
+                        }
+                        else
+                        {
+                            sw.WriteLine(s);   
+                        }
+                    }
+                }
+            }
+            File.Delete(path);
+            File.Move(pathTEMP, path);
+            File.Delete(pathTEMP);
+        }
         // Visualizzare dei dati mostrando tre campi significativi a scelta;
         public void Visualizza()
         {

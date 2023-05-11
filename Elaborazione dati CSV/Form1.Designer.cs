@@ -34,6 +34,8 @@
             this.Rcamp = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.listView1 = new System.Windows.Forms.ListView();
+            this.CancLogica = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // agg
@@ -68,7 +70,7 @@
             // 
             // Rcamp
             // 
-            this.Rcamp.Location = new System.Drawing.Point(12, 184);
+            this.Rcamp.Location = new System.Drawing.Point(12, 213);
             this.Rcamp.Name = "Rcamp";
             this.Rcamp.Size = new System.Drawing.Size(101, 23);
             this.Rcamp.TabIndex = 3;
@@ -78,9 +80,9 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(13, 158);
+            this.textBox1.Location = new System.Drawing.Point(13, 187);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.Size = new System.Drawing.Size(206, 20);
             this.textBox1.TabIndex = 4;
             // 
             // listView1
@@ -92,11 +94,33 @@
             this.listView1.TabIndex = 5;
             this.listView1.UseCompatibleStateImageBehavior = false;
             // 
+            // CancLogica
+            // 
+            this.CancLogica.Location = new System.Drawing.Point(119, 213);
+            this.CancLogica.Name = "CancLogica";
+            this.CancLogica.Size = new System.Drawing.Size(100, 23);
+            this.CancLogica.TabIndex = 6;
+            this.CancLogica.Text = "Elimina";
+            this.CancLogica.UseVisualStyleBackColor = true;
+            this.CancLogica.Click += new System.EventHandler(this.CancLogica_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 171);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(410, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Inserire il numero del municipio che si vuole cercare/cancellare (campo chiave sc" +
+    "elto)";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.CancLogica);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.Rcamp);
@@ -118,6 +142,8 @@
         private System.Windows.Forms.Button Rcamp;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.Button CancLogica;
+        private System.Windows.Forms.Label label1;
     }
 }
 
