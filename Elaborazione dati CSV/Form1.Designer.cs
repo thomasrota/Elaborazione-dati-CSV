@@ -143,7 +143,7 @@
             this.AggCoda.Name = "AggCoda";
             this.AggCoda.Size = new System.Drawing.Size(313, 23);
             this.AggCoda.TabIndex = 10;
-            this.AggCoda.Text = "Aggiunta Record In Coda";
+            this.AggCoda.Text = "Aggiunta Record In Coda / Modifica";
             this.AggCoda.UseVisualStyleBackColor = true;
             this.AggCoda.Click += new System.EventHandler(this.AggCoda_Click);
             // 

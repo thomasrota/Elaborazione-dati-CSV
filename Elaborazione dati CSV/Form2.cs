@@ -32,9 +32,10 @@ namespace Elaborazione_dati_CSV
             AggiuntaRecordCoda(int.Parse(MunAgg.Text), ZnUrbAgg.Text, RioneAgg.Text, QuartAgg.Text, SubUrbAgg.Text, ZoneAgrAgg.Text, BorgAgg.Text, ExMunAgg.Text, EtcAgg.Text);
             MessageBox.Show("Elemento inserito correttamente!");
         }
-        private void Modifica_Click(object sender, EventArgs e)
+        private void Mod_Click(object sender, EventArgs e)
         {
-
+            Modifica(int.Parse(CampoRicerc.Text), int.Parse(MunMod.Text), ZnUrbMod.Text, RioneMod.Text, QuartMod.Text, SubUrbMod.Text, ZnAgrMod.Text, BorgMod.Text, ExMunMod.Text, EtcMod.Text);
+            MessageBox.Show("Elemento modificato correttamente!");
         }
         #endregion
         #region Funzioni di Servizio
@@ -45,9 +46,38 @@ namespace Elaborazione_dati_CSV
             using (StreamWriter sw = new StreamWriter(path, append: true))
             {
                 sw.WriteLine($"{mun};{znurb};{rione};{quartiere};{suburb};{znagro};{borgo};{exmun};{etichetta};{r.Next(10, 21)};0;");
+                sw.Close();
             }
         }
         // Modificare  un record;
+        public void Modifica(int nome, int mun, string znurb, string rione, string quartiere, string suburb, string znagro, string borgo, string exmun, string etichetta)
+        {
+            using (StreamReader sr = File.OpenText(path))
+            {
+                string linea;
+                linea = sr.ReadLine();
+                using (StreamWriter sw = new StreamWriter(pathTEMP, append: true))
+                {
+                    sw.WriteLine(linea);
+                    while ((linea = sr.ReadLine()) != null)
+                    {
+                        string[] dati = linea.Split(';');
+                        if (dati[10] == "0")
+                        {
+                            if (int.Parse(dati[0]) == nome)
+                                sw.WriteLine($"{mun};{znurb};{rione};{quartiere};{suburb};{znagro};{borgo};{exmun};{etichetta};{dati[9]};0;");
+                            else
+                                sw.WriteLine(linea);
+                        }
+                    }
+                    sw.Close();
+                }
+                sr.Close();
+            }
+            File.Delete(path);
+            File.Move(pathTEMP, path);
+            File.Delete(pathTEMP);
+        }
         #endregion
     }
 }
