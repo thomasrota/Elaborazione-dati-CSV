@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Text;
 
 namespace Elaborazione_dati_CSV
 {
@@ -97,8 +98,20 @@ namespace Elaborazione_dati_CSV
         {
             AggiuntaSpazi();
         }
+        private void AggCoda_Click(object sender, EventArgs e)
+        {
+            Form2 FormAggMod = new Form2();
+            FormAggMod.Show();
+            FormAggMod.FormClosed += new FormClosedEventHandler(Form2_FormClosed);          // Registriamo la chiusura del Form2 e lo associamo al gestore di eventi
+        }
         #endregion
         #region Funzioni di Servizio
+        // Funzione che richiama le funzioni desiderate per gestire la chiusura del Form2
+        private void Form2_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            listView1.Clear();
+            Visualizza();
+        }
         // Aggiungere, in coda ad ogni record, un campo chiamato "miovalore", contenente un numero casuale compreso tra 10<=X<=20 ed un campo per marcare la cancellazione logica;
         public void AggiungiCampoMVE()
         {
@@ -221,7 +234,6 @@ namespace Elaborazione_dati_CSV
             File.Move(pathTEMP, path);
             File.Delete(pathTEMP);
         }
-        // Aggiungere un record in coda;
         // Ricercare un record per campo chiave a scelta (se esiste, utilizzare il campo che contiene dati univoci);
         public string RicercaCampo(int m)
         {
@@ -242,7 +254,6 @@ namespace Elaborazione_dati_CSV
             }
             return "f";
         }
-        // Modificare  un record;
         // Cancellare logicamente un record;
         public int Ricerca(int nome)
         {
