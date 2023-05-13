@@ -49,7 +49,7 @@ namespace Elaborazione_dati_CSV
                 sw.Close();
             }
         }
-        // Modificare  un record;
+        // Modificare un record;
         public void Modifica(int nome, int mun, string znurb, string rione, string quartiere, string suburb, string znagro, string borgo, string exmun, string etichetta)
         {
             using (StreamReader sr = File.OpenText(path))
@@ -62,12 +62,23 @@ namespace Elaborazione_dati_CSV
                     while ((linea = sr.ReadLine()) != null)
                     {
                         string[] dati = linea.Split(';');
+                        string stringains = $"{mun};{znurb};{rione};{quartiere};{suburb};{znagro};{borgo};{exmun};{etichetta};{dati[9]};0;";
                         if (dati[10] == "0")
                         {
                             if (int.Parse(dati[0]) == nome)
-                                sw.WriteLine($"{mun};{znurb};{rione};{quartiere};{suburb};{znagro};{borgo};{exmun};{etichetta};{dati[9]};0;");
+                            { 
+                                if (linea.Contains("##"))
+                                    sw.WriteLine(stringains.PadRight(500) + "##");
+                                else
+                                    sw.WriteLine(stringains);
+                            }
                             else
-                                sw.WriteLine(linea);
+                            {
+                                if (linea.Contains("##"))
+                                    sw.WriteLine(linea);
+                                else
+                                    sw.WriteLine(linea.PadRight(500) + "##");
+                            }
                         }
                     }
                     sw.Close();
