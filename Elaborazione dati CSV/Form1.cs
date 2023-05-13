@@ -50,13 +50,14 @@ namespace Elaborazione_dati_CSV
         {
             int lMaxRecord = LunghezzaMaxRecord();
             int[] lMaxCampi = LunghezzaMaxCampi();
+            string[] nomecampi = NomeCampi();
             string valori = "";
             for (int i = 0; i < lMaxCampi.Length - 1; i++)
             {
-                valori += $"{lMaxCampi[i]}, ";
+                valori += $"{lMaxCampi[i]} caratteri per {nomecampi[i]}, ";
             }
             MessageBox.Show($"La lunghezza massima del record è di {lMaxRecord} caratteri!");
-            MessageBox.Show($"La lunghezza massima per ogni campo è di: {valori} caratteri");
+            MessageBox.Show($"La lunghezza massima per ogni campo è di: {valori}");
         }
         private void Rcamp_Click(object sender, EventArgs e)
         {
@@ -112,7 +113,7 @@ namespace Elaborazione_dati_CSV
                             primaLinea = !primaLinea;
                         }
                         else
-                            linea += ";" + r.Next(10, 21) + ";" + "0" + ";";
+                            linea += ";" + r.Next(10, 21) + ";" + "0;";
                         sw.WriteLine(linea);
                     }
                     sw.Close();
@@ -160,6 +161,7 @@ namespace Elaborazione_dati_CSV
             using (StreamReader sr = File.OpenText(path))
             {
                 string linea;
+                linea = sr.ReadLine();
                 while ((linea = sr.ReadLine()) != null)
                 {
                     string[] campo = linea.Split(';');
@@ -188,6 +190,10 @@ namespace Elaborazione_dati_CSV
             return nomi;
         }
         // Inserire in ogni record un numero di spazi necessari a rendere fissa la dimensione di tutti i record, senza perdere informazioni.
+        public void AggiuntaSpazi()
+        {
+
+        }
         // Aggiungere un record in coda;
         // Ricercare un record per campo chiave a scelta (se esiste, utilizzare il campo che contiene dati univoci);
         public string RicercaCampo(int m)
