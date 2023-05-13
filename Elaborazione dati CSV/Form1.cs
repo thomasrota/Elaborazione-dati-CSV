@@ -93,6 +93,10 @@ namespace Elaborazione_dati_CSV
             listView1.Clear();
             Visualizza();
         }
+        private void PadRight_Click(object sender, EventArgs e)
+        {
+            AggiuntaSpazi();
+        }
         #endregion
         #region Funzioni di Servizio
         // Aggiungere, in coda ad ogni record, un campo chiamato "miovalore", contenente un numero casuale compreso tra 10<=X<=20 ed un campo per marcare la cancellazione logica;
@@ -133,6 +137,7 @@ namespace Elaborazione_dati_CSV
             {
                 linea = sr.ReadLine();
                 nCampi = linea.Split(';').Length;
+                sr.Close();
             }
             return nCampi;
         }
@@ -151,6 +156,7 @@ namespace Elaborazione_dati_CSV
                     i++;
                 }
                 maxRecord = recordL.Max();
+                sr.Close();
             }
             return maxRecord;
         }
@@ -171,6 +177,7 @@ namespace Elaborazione_dati_CSV
                             campiL[j] = campo[j].Length;
                     }
                 }
+                sr.Close();
             }
             return campiL;
         }
@@ -192,7 +199,27 @@ namespace Elaborazione_dati_CSV
         // Inserire in ogni record un numero di spazi necessari a rendere fissa la dimensione di tutti i record, senza perdere informazioni.
         public void AggiuntaSpazi()
         {
-
+            using (StreamReader sr = File.OpenText(path))
+            {
+                string linea;
+                linea = sr.ReadLine();
+                using (StreamWriter sw = new StreamWriter(pathTEMP, append: true))
+                {
+                    sw.WriteLine(linea);
+                    while ((linea = sr.ReadLine()) != null)
+                    {
+                        if (linea.Contains("##"))
+                            sw.WriteLine(linea);
+                        else
+                            sw.WriteLine(linea.PadRight(500) + "##");
+                    }
+                    sw.Close();
+                }
+                sr.Close();
+            }
+            File.Delete(path);
+            File.Move(pathTEMP, path);
+            File.Delete(pathTEMP);
         }
         // Aggiungere un record in coda;
         // Ricercare un record per campo chiave a scelta (se esiste, utilizzare il campo che contiene dati univoci);
@@ -211,6 +238,7 @@ namespace Elaborazione_dati_CSV
                         return linea;
                     }
                 }
+                sr.Close();
             }
             return "f";
         }
@@ -236,6 +264,7 @@ namespace Elaborazione_dati_CSV
                         }
                     }
                 }
+                sr.Close();
             }
             return pos;
         }
@@ -260,7 +289,9 @@ namespace Elaborazione_dati_CSV
                             sw.WriteLine(s);   
                         }
                     }
+                    sw.Close();
                 }
+                sr.Close();
             }
             File.Delete(path);
             File.Move(pathTEMP, path);
@@ -283,6 +314,7 @@ namespace Elaborazione_dati_CSV
                         break;
                     }
                 }
+                sr.Close();
             }
             return pos;
         }
@@ -307,7 +339,9 @@ namespace Elaborazione_dati_CSV
                             sw.WriteLine($"{dati[0]};{dati[1]};{dati[2]};{dati[3]};{dati[4]};{dati[5]};{dati[6]};{dati[7]};{dati[8]};{dati[9]};0;");
                         }
                     }
+                    sw.Close();
                 }
+                sr.Close();
             }
             File.Delete(path);
             File.Move(pathTEMP, path);

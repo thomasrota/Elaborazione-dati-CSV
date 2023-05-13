@@ -37,6 +37,7 @@
             this.CancLogica = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.Racqu = new System.Windows.Forms.Button();
+            this.PadRight = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // agg
@@ -125,11 +126,22 @@
             this.Racqu.UseVisualStyleBackColor = true;
             this.Racqu.Click += new System.EventHandler(this.Racqu_Click);
             // 
+            // PadRight
+            // 
+            this.PadRight.Location = new System.Drawing.Point(12, 264);
+            this.PadRight.Name = "PadRight";
+            this.PadRight.Size = new System.Drawing.Size(313, 23);
+            this.PadRight.TabIndex = 9;
+            this.PadRight.Text = "Aggiunta PadRight";
+            this.PadRight.UseVisualStyleBackColor = true;
+            this.PadRight.Click += new System.EventHandler(this.PadRight_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.PadRight);
             this.Controls.Add(this.Racqu);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CancLogica);
@@ -157,6 +169,7 @@
         private System.Windows.Forms.Button CancLogica;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button Racqu;
+        private System.Windows.Forms.Button PadRight;
     }
 }
 
