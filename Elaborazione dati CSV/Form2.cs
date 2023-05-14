@@ -29,16 +29,47 @@ namespace Elaborazione_dati_CSV
         }
         private void Aggiungi_Click(object sender, EventArgs e)
         {
+            //string prova = ZnUrbAgg.Text.Replace(" ", "-");
             AggiuntaRecordCoda(int.Parse(MunAgg.Text), ZnUrbAgg.Text, RioneAgg.Text, QuartAgg.Text, SubUrbAgg.Text, ZoneAgrAgg.Text, BorgAgg.Text, ExMunAgg.Text, EtcAgg.Text);
             MessageBox.Show("Elemento inserito correttamente!");
         }
         private void Mod_Click(object sender, EventArgs e)
         {
-            Modifica(int.Parse(CampoRicerc.Text), int.Parse(MunMod.Text), ZnUrbMod.Text, RioneMod.Text, QuartMod.Text, SubUrbMod.Text, ZnAgrMod.Text, BorgMod.Text, ExMunMod.Text, EtcMod.Text);
-            MessageBox.Show("Elemento modificato correttamente!");
+            int ricerca = Ricerca(int.Parse(CampoRicerc.Text));
+            if (ricerca == -1)
+                MessageBox.Show("Elemento non trovato!", "ERRORE");
+            else
+            {
+                Modifica(int.Parse(CampoRicerc.Text), int.Parse(MunMod.Text), ZnUrbMod.Text, RioneMod.Text, QuartMod.Text, SubUrbMod.Text, ZnAgrMod.Text, BorgMod.Text, ExMunMod.Text, EtcMod.Text);
+                MessageBox.Show("Elemento modificato correttamente!");
+            }
         }
         #endregion
         #region Funzioni di Servizio
+        public int Ricerca(int nome)
+        {
+            int pos = -1;
+            using (StreamReader sr = File.OpenText(path))
+            {
+                string s;
+                int riga = 0;
+                while ((s = sr.ReadLine()) != null)
+                {
+                    riga++;
+                    string[] dati = s.Split(';');
+                    if (dati[10] == "0")
+                    {
+                        if (int.Parse(dati[0]) == nome)
+                        {
+                            pos = riga;
+                            break;
+                        }
+                    }
+                }
+                sr.Close();
+            }
+            return pos;
+        }
         // Aggiungere un record in coda;
         public void AggiuntaRecordCoda(int mun, string znurb, string rione, string quartiere, string suburb, string znagro, string borgo, string exmun, string etichetta)
         {

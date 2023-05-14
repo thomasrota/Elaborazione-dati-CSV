@@ -64,9 +64,7 @@ namespace Elaborazione_dati_CSV
         {
             string ricerca = RicercaCampo(int.Parse(textBox1.Text));
             if (ricerca == "f")
-            {
                 MessageBox.Show("Elemento non trovato!, ERRORE");
-            }
             else
                 MessageBox.Show($"{ricerca}");
         }
@@ -78,9 +76,9 @@ namespace Elaborazione_dati_CSV
             else
             {
                 CancellazioneLogica(ric);
+                listView1.Clear();
+                Visualizza();
             }
-            listView1.Clear();
-            Visualizza();
         }
         private void Racqu_Click(object sender, EventArgs e)
         {
@@ -90,9 +88,9 @@ namespace Elaborazione_dati_CSV
             else
             {
                 Reacquisizione(ric);
+                listView1.Clear();
+                Visualizza();
             }
-            listView1.Clear();
-            Visualizza();
         }
         private void PadRight_Click(object sender, EventArgs e)
         {
