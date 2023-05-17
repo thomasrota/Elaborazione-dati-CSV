@@ -29,8 +29,7 @@ namespace Elaborazione_dati_CSV
         }
         private void Aggiungi_Click(object sender, EventArgs e)
         {
-            //string prova = ZnUrbAgg.Text.Replace(" ", "-");
-            AggiuntaRecordCoda(int.Parse(MunAgg.Text), ZnUrbAgg.Text, RioneAgg.Text, QuartAgg.Text, SubUrbAgg.Text, ZoneAgrAgg.Text, BorgAgg.Text, ExMunAgg.Text, EtcAgg.Text);
+            AggiuntaRecordCoda(string.IsNullOrEmpty(MunAgg.Text) ? "-" : MunAgg.Text, string.IsNullOrEmpty(ZnUrbAgg.Text) ? "-" : ZnUrbAgg.Text, string.IsNullOrEmpty(RioneAgg.Text) ? "-" : RioneAgg.Text, string.IsNullOrEmpty(QuartAgg.Text) ? "-" : QuartAgg.Text, string.IsNullOrEmpty(SubUrbAgg.Text) ? "-" : SubUrbAgg.Text, string.IsNullOrEmpty(ZoneAgrAgg.Text) ? "-" : ZoneAgrAgg.Text, string.IsNullOrEmpty(BorgAgg.Text) ? "-" : BorgAgg.Text, string.IsNullOrEmpty(ExMunAgg.Text) ? "-" : ExMunAgg.Text, string.IsNullOrEmpty(EtcAgg.Text) ? "-" : EtcAgg.Text);
             MessageBox.Show("Elemento inserito correttamente!");
         }
         private void Mod_Click(object sender, EventArgs e)
@@ -40,7 +39,7 @@ namespace Elaborazione_dati_CSV
                 MessageBox.Show("Elemento non trovato!", "ERRORE");
             else
             {
-                Modifica(int.Parse(CampoRicerc.Text), int.Parse(MunMod.Text), ZnUrbMod.Text, RioneMod.Text, QuartMod.Text, SubUrbMod.Text, ZnAgrMod.Text, BorgMod.Text, ExMunMod.Text, EtcMod.Text);
+                Modifica(int.Parse(CampoRicerc.Text), string.IsNullOrEmpty(MunMod.Text) ? "-" : MunMod.Text, string.IsNullOrEmpty(ZnUrbMod.Text) ? "-" : ZnUrbMod.Text, string.IsNullOrEmpty(RioneMod.Text) ? "-" : RioneMod.Text, string.IsNullOrEmpty(QuartMod.Text) ? "-" : QuartMod.Text, string.IsNullOrEmpty(SubUrbMod.Text) ? "-" : SubUrbMod.Text, string.IsNullOrEmpty(ZnAgrMod.Text) ? "-" : ZnAgrMod.Text, string.IsNullOrEmpty(BorgMod.Text) ? "-" : BorgMod.Text, string.IsNullOrEmpty(ExMunMod.Text) ? "-" : ExMunMod.Text, string.IsNullOrEmpty(EtcMod.Text) ? "-" : EtcMod.Text);
                 MessageBox.Show("Elemento modificato correttamente!");
             }
         }
@@ -71,7 +70,7 @@ namespace Elaborazione_dati_CSV
             return pos;
         }
         // Aggiungere un record in coda;
-        public void AggiuntaRecordCoda(int mun, string znurb, string rione, string quartiere, string suburb, string znagro, string borgo, string exmun, string etichetta)
+        public void AggiuntaRecordCoda(string mun, string znurb, string rione, string quartiere, string suburb, string znagro, string borgo, string exmun, string etichetta)
         {
             Random r = new Random();
             using (StreamWriter sw = new StreamWriter(path, append: true))
@@ -81,7 +80,7 @@ namespace Elaborazione_dati_CSV
             }
         }
         // Modificare un record;
-        public void Modifica(int nome, int mun, string znurb, string rione, string quartiere, string suburb, string znagro, string borgo, string exmun, string etichetta)
+        public void Modifica(int nome, string mun, string znurb, string rione, string quartiere, string suburb, string znagro, string borgo, string exmun, string etichetta)
         {
             using (StreamReader sr = File.OpenText(path))
             {
