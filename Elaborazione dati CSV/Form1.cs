@@ -194,7 +194,8 @@ namespace Elaborazione_dati_CSV
         }
         public string[] NomeCampi()
         {
-            string[] nomi = new string[11];
+            int n = NumeroCampi();
+            string[] nomi = new string[n - 1];
             string linea;
             using (StreamReader sr = File.OpenText(path))
             {
@@ -359,29 +360,55 @@ namespace Elaborazione_dati_CSV
         // Visualizzare dei dati mostrando tre campi significativi a scelta;
         public void Visualizza()
         {
+            int n = NumeroCampi();
             string[] colonne = NomeCampi();
             using (StreamReader sr = File.OpenText(path))
             {
                 string linea;
                 listView1.View = View.Details;
-                for(int i = 0; i < colonne.Length - 1; i++)
+                if (n == 12)
                 {
-                    listView1.Columns.Add(colonne[i], 108, HorizontalAlignment.Center);
+                    for (int i = 0; i < colonne.Length - 1; i++)
+                    {
+                        listView1.Columns.Add(colonne[i], 108, HorizontalAlignment.Center);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < colonne.Length; i++)
+                    {
+                        listView1.Columns.Add(colonne[i], 108, HorizontalAlignment.Center);
+                    }
                 }
                 listView1.GridLines = true;
+                linea = sr.ReadLine();
                 while ((linea = sr.ReadLine()) != null)
                 {
                     string[] dati = linea.Split(';');
-                    if (dati[10] == "0")
+                    if (n == 12)
+                    {
+                        if (dati[10] == "0")
+                        {
+                            ListViewItem newItem = new ListViewItem();
+                            newItem.Text = dati[0];
+                            for (int j = 1; j < colonne.Length - 1; j++)
+                            {
+                                newItem.SubItems.Add(dati[j]);
+                            }
+                            listView1.Items.Add(newItem);
+                        }
+                    }
+                    else
                     {
                         ListViewItem newItem = new ListViewItem();
                         newItem.Text = dati[0];
-                        for (int j = 1; j < colonne.Length - 1; j++)
+                        for (int j = 1; j < colonne.Length; j++)
                         {
                             newItem.SubItems.Add(dati[j]);
                         }
                         listView1.Items.Add(newItem);
                     }
+
                 }
                 sr.Close();
             }
