@@ -19,6 +19,7 @@ namespace Elaborazione_dati_CSV
         public int campiIniziali;
         public int righeIniziali;
         public int righe;
+        Funzioni f;
         #endregion
         #region Funzioni evento
         public Form1()
@@ -28,6 +29,8 @@ namespace Elaborazione_dati_CSV
             pathTEMP = @"rotaTEMP.csv";
             campiIniziali = 9;
             righeIniziali = 16;
+            f = new Funzioni();
+            f.Fnz(path, pathTEMP);
             if (!File.Exists(path))
             {
                 File.Create(path);
@@ -36,22 +39,27 @@ namespace Elaborazione_dati_CSV
         }
         private void agg_Click(object sender, EventArgs e)
         {
-            int n = NumeroCampi();
+            int n = f.NumeroCampi(path) - 1;
             if (n == campiIniziali)
-                AggiungiCampoMVE();
+            {
+                f.AggiungiCampoMVE(path, pathTEMP);
+                MessageBox.Show("Campi aggiunti correttamente!");
+                listView1.Clear();
+                Visualizza();
+            }     
             else
                 MessageBox.Show("I campi 'Mio valore' e 'Cancellazione Logica' sono già presenti", "ERRORE!");
         }
         private void contacampi_Click(object sender, EventArgs e)
         {
-            int n = NumeroCampi();
+            int n = f.NumeroCampi(path);
             MessageBox.Show($"In totale vi è/sono presente/i {n - 1} campo/i");
         }
         private void RecordLenght_Click(object sender, EventArgs e)
         {
-            int lMaxRecord = LunghezzaMaxRecord();
-            int[] lMaxCampi = LunghezzaMaxCampi();
-            string[] nomecampi = NomeCampi();
+            int lMaxRecord = f.LunghezzaMaxRecord(path, righeIniziali);
+            int[] lMaxCampi = f.LunghezzaMaxCampi(path);
+            string[] nomecampi = f.NomeCampi(path);
             string valori = "";
             for (int i = 0; i < lMaxCampi.Length - 1; i++)
             {
@@ -62,7 +70,7 @@ namespace Elaborazione_dati_CSV
         }
         private void Rcamp_Click(object sender, EventArgs e)
         {
-            string ricerca = RicercaCampo(int.Parse(textBox1.Text));
+            string ricerca = f.RicercaCampo(int.Parse(textBox1.Text), path);
             if (ricerca == "f")
                 MessageBox.Show("Elemento non trovato!, ERRORE");
             else
@@ -70,31 +78,37 @@ namespace Elaborazione_dati_CSV
         }
         private void CancLogica_Click(object sender, EventArgs e)
         {
-            int ric = Ricerca(int.Parse(textBox1.Text));
+            int n = f.NumeroCampi(path) - 1;
+            int ric = f.Ricerca(int.Parse(textBox1.Text), path);
             if (ric == -1)
                 MessageBox.Show("Elemento non trovato!", "ERRORE");
+            if (n == campiIniziali)
+                MessageBox.Show("Cliccare prima sul tasto 'Aggiungi Mio valore e Cancellazione logica!'", "ERRORE");
             else
             {
-                CancellazioneLogica(ric);
+                f.CancellazioneLogica(ric, path, pathTEMP);
                 listView1.Clear();
                 Visualizza();
             }
         }
         private void Racqu_Click(object sender, EventArgs e)
         {
-            int ric = RicercaReacq(textBox1.Text);
+            int n = f.NumeroCampi(path) - 1;
+            int ric = f.Ricerca(int.Parse(textBox1.Text), path);
             if (ric == -1)
                 MessageBox.Show("Elemento non trovato!", "ERRORE");
+            if (n == campiIniziali)
+                MessageBox.Show("Cliccare prima sul tasto 'Aggiungi Mio valore e Cancellazione logica!'", "ERRORE");
             else
             {
-                Reacquisizione(ric);
+                f.Reacquisizione(ric, path, pathTEMP);
                 listView1.Clear();
                 Visualizza();
             }
         }
         private void PadRight_Click(object sender, EventArgs e)
         {
-            AggiuntaSpazi();
+            f.AggiuntaSpazi(path, pathTEMP);
         }
         private void AggCoda_Click(object sender, EventArgs e)
         {
@@ -110,272 +124,25 @@ namespace Elaborazione_dati_CSV
             listView1.Clear();
             Visualizza();
         }
-        // Aggiungere, in coda ad ogni record, un campo chiamato "miovalore", contenente un numero casuale compreso tra 10<=X<=20 ed un campo per marcare la cancellazione logica;
-        public void AggiungiCampoMVE()
-        {
-            using (StreamReader sr = File.OpenText(path))
-            {
-                Random r = new Random();
-                string linea;
-                bool primaLinea = false;
-                using (StreamWriter sw = new StreamWriter(pathTEMP, append: true))
-                {
-                    while ((linea = sr.ReadLine()) != null)
-                    {
-                        if (!primaLinea)
-                        {
-                            linea += ";Mio valore;Cancellazione logica;";
-                            primaLinea = !primaLinea;
-                        }
-                        else
-                            linea += ";" + r.Next(10, 21) + ";" + "0;";
-                        sw.WriteLine(linea);
-                    }
-                    sw.Close();
-                }
-                sr.Close();
-            }
-            File.Delete(path);
-            File.Move(pathTEMP, path);
-            File.Delete(pathTEMP);
-        }
-        // Contare il numero dei campi che compongono il record.
-        public int NumeroCampi()
-        {
-            int nCampi;
-            string linea;
-            using (StreamReader sr = File.OpenText(path))
-            {
-                linea = sr.ReadLine();
-                nCampi = linea.Split(';').Length;
-                sr.Close();
-            }
-            return nCampi;
-        }
-        // Calcolare la lunghezza massima dei record presenti (avanzato: indicando anche la lunghezza massima di ogni campo);
-        public int LunghezzaMaxRecord()
-        {
-            int[] recordL = new int[righeIniziali];
-            int maxRecord = 0;
-            using (StreamReader sr = File.OpenText(path))
-            {
-                string linea;
-                int i = 0;
-                while ((linea = sr.ReadLine()) != null)
-                {
-                    recordL[i] = linea.Length;
-                    i++;
-                }
-                maxRecord = recordL.Max();
-                sr.Close();
-            }
-            return maxRecord;
-        }
-        public int[] LunghezzaMaxCampi()
-        {
-            int dim = NumeroCampi();
-            int[] campiL = new int[dim];
-            using (StreamReader sr = File.OpenText(path))
-            {
-                string linea;
-                linea = sr.ReadLine();
-                while ((linea = sr.ReadLine()) != null)
-                {
-                    string[] campo = linea.Split(';');
-                    for (int j = 0; j < campo.Length; j++)
-                    {
-                        if (campo[j].Length > campiL[j])
-                            campiL[j] = campo[j].Length;
-                    }
-                }
-                sr.Close();
-            }
-            return campiL;
-        }
-        public string[] NomeCampi()
-        {
-            int n = NumeroCampi();
-            string[] nomi = new string[n - 1];
-            string linea;
-            using (StreamReader sr = File.OpenText(path))
-            {
-                linea = sr.ReadLine();
-                string[] campo = linea.Split(';');
-                for (int i = 0; i < nomi.Length; i++)
-                {
-                    nomi[i] = campo[i];
-                }
-            }
-            return nomi;
-        }
-        // Inserire in ogni record un numero di spazi necessari a rendere fissa la dimensione di tutti i record, senza perdere informazioni.
-        public void AggiuntaSpazi()
-        {
-            using (StreamReader sr = File.OpenText(path))
-            {
-                string linea;
-                linea = sr.ReadLine();
-                using (StreamWriter sw = new StreamWriter(pathTEMP, append: true))
-                {
-                    sw.WriteLine(linea);
-                    while ((linea = sr.ReadLine()) != null)
-                    {
-                        if (linea.Contains("##"))
-                            sw.WriteLine(linea);
-                        else
-                            sw.WriteLine(linea.PadRight(500) + "##");
-                    }
-                    sw.Close();
-                }
-                sr.Close();
-            }
-            File.Delete(path);
-            File.Move(pathTEMP, path);
-            File.Delete(pathTEMP);
-        }
-        // Ricercare un record per campo chiave a scelta (se esiste, utilizzare il campo che contiene dati univoci);
-        public string RicercaCampo(int m)
-        {
-            using (StreamReader sr = File.OpenText(path))
-            {
-                string linea;
-                linea = sr.ReadLine();
-                while ((linea = sr.ReadLine()) != null)
-                {
-                    string[] campo = linea.Split(';');
-                    int nric = int.Parse(campo[0]);
-                    if (m == nric)
-                    {
-                        return linea;
-                    }
-                }
-                sr.Close();
-            }
-            return "f";
-        }
-        // Cancellare logicamente un record;
-        public int Ricerca(int nome)
-        {
-            int pos = -1;
-            using (StreamReader sr = File.OpenText(path))
-            {
-                string s;
-                int riga = 0;
-                while ((s = sr.ReadLine()) != null)
-                {
-                    riga++;
-                    string[] dati = s.Split(';');
-                    if (dati[10] == "0")
-                    {
-                        if (int.Parse(dati[0]) == nome)
-                        {
-                            pos = riga;
-                            break;
-                        }
-                    }
-                }
-                sr.Close();
-            }
-            return pos;
-        }
-        public void CancellazioneLogica(int posizione)
-        {
-            using (StreamReader sr = File.OpenText(path))
-            {
-                string s;
-                using (StreamWriter sw = new StreamWriter(pathTEMP, append: true))
-                {
-                    int riga = 0;
-                    while ((s = sr.ReadLine()) != null)
-                    {
-                        riga++;
-                        string[] dati = s.Split(';');
-                        if (riga == posizione)
-                        {
-                            sw.WriteLine($"{dati[0]};{dati[1]};{dati[2]};{dati[3]};{dati[4]};{dati[5]};{dati[6]};{dati[7]};{dati[8]};{dati[9]};1;");
-                        }
-                        else
-                        {
-                            sw.WriteLine(s);   
-                        }
-                    }
-                    sw.Close();
-                }
-                sr.Close();
-            }
-            File.Delete(path);
-            File.Move(pathTEMP, path);
-            File.Delete(pathTEMP);
-        }
-        public int RicercaReacq(string nome)
-        {
-            int pos = -1;
-            using (StreamReader sr = File.OpenText(path))
-            {
-                string s;
-                int riga = 0;
-                while ((s = sr.ReadLine()) != null)
-                {
-                    riga++;
-                    string[] dati = s.Split(';');
-                    if (dati[0] == nome)
-                    {
-                        pos = riga;
-                        break;
-                    }
-                }
-                sr.Close();
-            }
-            return pos;
-        }
-        public void Reacquisizione(int posizione)
-        {
-            using (StreamReader sr = File.OpenText(path))
-            {
-                string s;
-                using (StreamWriter sw = new StreamWriter(pathTEMP, append: true))
-                {
-                    int riga = 0;
-                    while ((s = sr.ReadLine()) != null)
-                    {
-                        riga++;
-                        string[] dati = s.Split(';');
-                        if (riga != posizione)
-                        {
-                            sw.WriteLine(s);
-                        }
-                        else
-                        {
-                            sw.WriteLine($"{dati[0]};{dati[1]};{dati[2]};{dati[3]};{dati[4]};{dati[5]};{dati[6]};{dati[7]};{dati[8]};{dati[9]};0;");
-                        }
-                    }
-                    sw.Close();
-                }
-                sr.Close();
-            }
-            File.Delete(path);
-            File.Move(pathTEMP, path);
-            File.Delete(pathTEMP);
-        }
         // Visualizzare dei dati mostrando tre campi significativi a scelta;
         public void Visualizza()
         {
-            int n = NumeroCampi();
-            string[] colonne = NomeCampi();
+            int n = f.NumeroCampi(path) - 1;
+            string[] colonne = f.NomeCampi(path);
             using (StreamReader sr = File.OpenText(path))
             {
                 string linea;
                 listView1.View = View.Details;
-                if (n == 12)
+                if (n == 11)
                 {
-                    for (int i = 0; i < colonne.Length - 1; i++)
+                    for (int i = 0; i < colonne.Length - 2; i++)
                     {
                         listView1.Columns.Add(colonne[i], 108, HorizontalAlignment.Center);
                     }
                 }
                 else
                 {
-                    for (int i = 0; i < colonne.Length; i++)
+                    for (int i = 0; i < colonne.Length - 1; i++)
                     {
                         listView1.Columns.Add(colonne[i], 108, HorizontalAlignment.Center);
                     }
@@ -385,7 +152,7 @@ namespace Elaborazione_dati_CSV
                 while ((linea = sr.ReadLine()) != null)
                 {
                     string[] dati = linea.Split(';');
-                    if (n == 12)
+                    if (n == 11)
                     {
                         if (dati[10] == "0")
                         {
@@ -408,7 +175,6 @@ namespace Elaborazione_dati_CSV
                         }
                         listView1.Items.Add(newItem);
                     }
-
                 }
                 sr.Close();
             }
