@@ -270,18 +270,52 @@ namespace Elaborazione_dati_CSV
             File.Delete(pathTEMP);
         }
         // Aggiungere un record in coda;
-        public void AggiuntaRecordCoda(int mun, string znurb, string rione, string quartiere, string suburb, string znagro, string borgo, string exmun, string etichetta, string path)
+        public void AggiuntaRecordCoda(int mun, string znurb, string rione, string quartiere, string suburb, string znagro, string borgo, string exmun, string etichetta, string path, string pathTEMP)
         {
             int n = NumeroCampi(path);
             Random r = new Random();
-            using (StreamWriter sw = new StreamWriter(path, append: true))
+            File.Copy(path, pathTEMP);
+            using (StreamReader sr = File.OpenText(path))
             {
-                if (n == 11)
-                    sw.WriteLine($"{mun};{znurb};{rione};{quartiere};{suburb};{znagro};{borgo};{exmun};{etichetta};{r.Next(10, 21)};0;");
-                else
-                    sw.WriteLine($"{mun};{znurb};{rione};{quartiere};{suburb};{znagro};{borgo};{exmun};{etichetta};");
-                sw.Close();
+                string linea;
+                linea = sr.ReadLine();
+                linea = sr.ReadLine();
+                string valoreagg;
+                using (StreamWriter sw = new StreamWriter(pathTEMP, append: true))
+                {
+                    if (linea.Contains("##"))
+                    {
+                        if (n == 11)
+                        {
+                            valoreagg = $"{mun};{znurb};{rione};{quartiere};{suburb};{znagro};{borgo};{exmun};{etichetta};{r.Next(10, 21)};0;";
+                            sw.WriteLine(valoreagg.PadRight(500) + "##");
+                        }
+                        else
+                        {
+                            valoreagg = $"{mun};{znurb};{rione};{quartiere};{suburb};{znagro};{borgo};{exmun};{etichetta};";
+                            sw.WriteLine(valoreagg.PadRight(500) + "##");
+                        }   
+                    }
+                    else
+                    {
+                        if (n == 11)
+                        {
+                            valoreagg = $"{mun};{znurb};{rione};{quartiere};{suburb};{znagro};{borgo};{exmun};{etichetta};{r.Next(10, 21)};0;";
+                            sw.WriteLine(valoreagg);
+                        }
+                        else
+                        {
+                            valoreagg = $"{mun};{znurb};{rione};{quartiere};{suburb};{znagro};{borgo};{exmun};{etichetta};";
+                            sw.WriteLine(valoreagg);
+                        }
+                    }
+                    sw.Close();
+                }
+                sr.Close();
             }
+            File.Delete(path);
+            File.Move(pathTEMP, path);
+            File.Delete(pathTEMP);
         }
         // Modificare un record;
         public void Modifica(int nome, int mun, string znurb, string rione, string quartiere, string suburb, string znagro, string borgo, string exmun, string etichetta, string path, string pathTEMP)

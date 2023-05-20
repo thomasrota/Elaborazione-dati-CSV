@@ -31,7 +31,7 @@ namespace Elaborazione_dati_CSV
         }
         private void Aggiungi_Click(object sender, EventArgs e)
         {
-            f.AggiuntaRecordCoda(int.Parse(MunAgg.Text), string.IsNullOrEmpty(ZnUrbAgg.Text) ? "-" : ZnUrbAgg.Text, string.IsNullOrEmpty(RioneAgg.Text) ? "-" : RioneAgg.Text, string.IsNullOrEmpty(QuartAgg.Text) ? "-" : QuartAgg.Text, string.IsNullOrEmpty(SubUrbAgg.Text) ? "-" : SubUrbAgg.Text, string.IsNullOrEmpty(ZoneAgrAgg.Text) ? "-" : ZoneAgrAgg.Text, string.IsNullOrEmpty(BorgAgg.Text) ? "-" : BorgAgg.Text, string.IsNullOrEmpty(ExMunAgg.Text) ? "-" : ExMunAgg.Text, string.IsNullOrEmpty(EtcAgg.Text) ? "-" : EtcAgg.Text, path);
+            f.AggiuntaRecordCoda(int.Parse(MunAgg.Text), string.IsNullOrEmpty(ZnUrbAgg.Text) ? "-" : ZnUrbAgg.Text, string.IsNullOrEmpty(RioneAgg.Text) ? "-" : RioneAgg.Text, string.IsNullOrEmpty(QuartAgg.Text) ? "-" : QuartAgg.Text, string.IsNullOrEmpty(SubUrbAgg.Text) ? "-" : SubUrbAgg.Text, string.IsNullOrEmpty(ZoneAgrAgg.Text) ? "-" : ZoneAgrAgg.Text, string.IsNullOrEmpty(BorgAgg.Text) ? "-" : BorgAgg.Text, string.IsNullOrEmpty(ExMunAgg.Text) ? "-" : ExMunAgg.Text, string.IsNullOrEmpty(EtcAgg.Text) ? "-" : EtcAgg.Text, path, pathTEMP);
             MessageBox.Show("Elemento inserito correttamente!");
         }
         private void Mod_Click(object sender, EventArgs e)
