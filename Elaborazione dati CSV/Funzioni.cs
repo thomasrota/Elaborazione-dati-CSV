@@ -47,7 +47,7 @@ namespace Elaborazione_dati_CSV
             using (StreamReader sr = File.OpenText(path))
             {
                 linea = sr.ReadLine();
-                nCampi = linea.Split(';').Length;
+                nCampi = linea.Split(';').Length - 1;
                 sr.Close();
             }
             return nCampi;
@@ -179,8 +179,7 @@ namespace Elaborazione_dati_CSV
                     }
                     else
                     {
-                        int c = int.Parse(dati[0]);
-                        if(c == nome)
+                        if (dati[0] == nome.ToString())
                         {
                             pos = riga;
                             break;
@@ -307,13 +306,9 @@ namespace Elaborazione_dati_CSV
                                 if (dati[10] == "0")
                                 {
                                     if (int.Parse(dati[0]) == nome)
-                                    {
                                         sw.WriteLine(stringains.PadRight(500) + "##");
-                                    }
                                     else
-                                    {
-                                         sw.WriteLine(linea.PadRight(500) + "##");
-                                    }
+                                        sw.WriteLine(linea);
                                 }
                             }
                             else
@@ -321,14 +316,9 @@ namespace Elaborazione_dati_CSV
                                 if (dati[10] == "0")
                                 {
                                     if (int.Parse(dati[0]) == nome)
-                                    {
                                         sw.WriteLine(stringains);
-                                    }
                                     else
-                                    {
                                         sw.WriteLine(linea);
-
-                                    }
                                 }
                             }
                         }
@@ -338,24 +328,18 @@ namespace Elaborazione_dati_CSV
                             if (linea.Contains("##"))
                             {
                                 if (int.Parse(dati[0]) == nome)
-                                {
                                     sw.WriteLine(stringains.PadRight(500) + "##");
-                                }
                                 else
-                                    sw.WriteLine(stringains.PadRight(500) + "##");
+                                    sw.WriteLine(linea.PadRight(500) + "##");
                             }
                             else
                             {
                                 if (int.Parse(dati[0]) == nome)
-                                {
                                     sw.WriteLine(stringains);
-                                }
                                 else
                                     sw.WriteLine(linea);
                             }
-
                         }
-                        
                     }
                     sw.Close();
                 }
@@ -367,12 +351,11 @@ namespace Elaborazione_dati_CSV
         }
         public void Fnz(string path, string pathTEMP)
         {
-            int n = NumeroCampi(path) - 1;
-            if (n != 9)
+            int n = NumeroCampi(path);
+            if (n < 9)
             {
                 using (StreamReader sr = File.OpenText(path))
                 {
-                    Random r = new Random();
                     string linea;
                     bool primaLinea = false;
                     using (StreamWriter sw = new StreamWriter(pathTEMP, append: true))

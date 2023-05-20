@@ -39,7 +39,7 @@ namespace Elaborazione_dati_CSV
         }
         private void agg_Click(object sender, EventArgs e)
         {
-            int n = f.NumeroCampi(path) - 1;
+            int n = f.NumeroCampi(path);
             if (n == campiIniziali)
             {
                 f.AggiungiCampoMVE(path, pathTEMP);
@@ -53,7 +53,7 @@ namespace Elaborazione_dati_CSV
         private void contacampi_Click(object sender, EventArgs e)
         {
             int n = f.NumeroCampi(path);
-            MessageBox.Show($"In totale vi è/sono presente/i {n - 1} campo/i");
+            MessageBox.Show($"In totale vi è/sono presente/i {n} campo/i");
         }
         private void RecordLenght_Click(object sender, EventArgs e)
         {
@@ -78,7 +78,7 @@ namespace Elaborazione_dati_CSV
         }
         private void CancLogica_Click(object sender, EventArgs e)
         {
-            int n = f.NumeroCampi(path) - 1;
+            int n = f.NumeroCampi(path);
             int ric = f.Ricerca(int.Parse(textBox1.Text), path);
             if (ric == -1)
                 MessageBox.Show("Elemento non trovato!", "ERRORE");
@@ -93,7 +93,7 @@ namespace Elaborazione_dati_CSV
         }
         private void Racqu_Click(object sender, EventArgs e)
         {
-            int n = f.NumeroCampi(path) - 1;
+            int n = f.NumeroCampi(path);
             int ric = f.Ricerca(int.Parse(textBox1.Text), path);
             if (ric == -1)
                 MessageBox.Show("Elemento non trovato!", "ERRORE");
@@ -127,7 +127,7 @@ namespace Elaborazione_dati_CSV
         // Visualizzare dei dati mostrando tre campi significativi a scelta;
         public void Visualizza()
         {
-            int n = f.NumeroCampi(path) - 1;
+            int n = f.NumeroCampi(path);
             string[] colonne = f.NomeCampi(path);
             using (StreamReader sr = File.OpenText(path))
             {
@@ -135,14 +135,14 @@ namespace Elaborazione_dati_CSV
                 listView1.View = View.Details;
                 if (n == 11)
                 {
-                    for (int i = 0; i < colonne.Length - 2; i++)
+                    for (int i = 0; i < colonne.Length - 1; i++)
                     {
                         listView1.Columns.Add(colonne[i], 108, HorizontalAlignment.Center);
                     }
                 }
                 else
                 {
-                    for (int i = 0; i < colonne.Length - 1; i++)
+                    for (int i = 0; i < colonne.Length; i++)
                     {
                         listView1.Columns.Add(colonne[i], 108, HorizontalAlignment.Center);
                     }
