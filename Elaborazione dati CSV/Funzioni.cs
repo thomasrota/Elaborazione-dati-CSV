@@ -204,11 +204,18 @@ namespace Elaborazione_dati_CSV
                         string[] dati = s.Split(';');
                         if (riga == posizione)
                         {
-                            sw.WriteLine($"{dati[0]};{dati[1]};{dati[2]};{dati[3]};{dati[4]};{dati[5]};{dati[6]};{dati[7]};{dati[8]};{dati[9]};1;");
+                            string ins = $"{dati[0]};{dati[1]};{dati[2]};{dati[3]};{dati[4]};{dati[5]};{dati[6]};{dati[7]};{dati[8]};{dati[9]};1;";
+                            if (s.Contains("##"))
+                                sw.WriteLine(ins.PadRight(500) + "##");
+                            else
+                                sw.WriteLine(ins);
                         }
                         else
                         {
-                            sw.WriteLine(s);
+                            if (s.Contains("##"))
+                                sw.WriteLine(s);
+                            else
+                                sw.WriteLine(s.PadRight(500) + "##");
                         }
                     }
                     sw.Close();
@@ -254,11 +261,18 @@ namespace Elaborazione_dati_CSV
                         string[] dati = s.Split(';');
                         if (riga != posizione)
                         {
-                            sw.WriteLine(s);
+                            if (s.Contains("##"))
+                                sw.WriteLine(s);
+                            else
+                                sw.WriteLine(s.PadRight(500) + "##");
                         }
                         else
                         {
-                            sw.WriteLine($"{dati[0]};{dati[1]};{dati[2]};{dati[3]};{dati[4]};{dati[5]};{dati[6]};{dati[7]};{dati[8]};{dati[9]};0;");
+                            string ins = $"{dati[0]};{dati[1]};{dati[2]};{dati[3]};{dati[4]};{dati[5]};{dati[6]};{dati[7]};{dati[8]};{dati[9]};0;";
+                            if (s.Contains("##"))
+                                sw.WriteLine(ins.PadRight(500) + "##");
+                            else
+                                sw.WriteLine(ins);
                         }
                     }
                     sw.Close();
