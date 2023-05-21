@@ -70,11 +70,12 @@ namespace Elaborazione_dati_CSV
         }
         private void Rcamp_Click(object sender, EventArgs e)
         {
+            int pos = f.Ricerca(int.Parse(textBox1.Text), path);
             string ricerca = f.RicercaCampo(int.Parse(textBox1.Text), path);
             if (ricerca == "f")
                 MessageBox.Show("Elemento non trovato!, ERRORE");
             else
-                MessageBox.Show($"{ricerca}");
+                MessageBox.Show($"Posizione: {pos}\n\nElemento: {ricerca}");
         }
         private void CancLogica_Click(object sender, EventArgs e)
         {
