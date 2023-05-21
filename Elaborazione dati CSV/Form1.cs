@@ -94,7 +94,7 @@ namespace Elaborazione_dati_CSV
         private void Racqu_Click(object sender, EventArgs e)
         {
             int n = f.NumeroCampi(path);
-            int ric = f.Ricerca(int.Parse(textBox1.Text), path);
+            int ric = f.RicercaReacq(textBox1.Text, path);
             if (ric == -1)
                 MessageBox.Show("Elemento non trovato!", "ERRORE");
             if (n == campiIniziali)

@@ -74,7 +74,7 @@ namespace Elaborazione_dati_CSV
         public int[] LunghezzaMaxCampi(string path)
         {
             int dim = NumeroCampi(path);
-            int[] campiL = new int[dim];
+            int[] campiL = new int[dim + 1];
             using (StreamReader sr = File.OpenText(path))
             {
                 string linea;
@@ -82,7 +82,7 @@ namespace Elaborazione_dati_CSV
                 while ((linea = sr.ReadLine()) != null)
                 {
                     string[] campo = linea.Split(';');
-                    for (int j = 0; j < campo.Length; j++)
+                    for (int j = 0; j < campiL.Length; j++)
                     {
                         if (campo[j].Length > campiL[j])
                             campiL[j] = campo[j].Length;
