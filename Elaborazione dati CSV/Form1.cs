@@ -48,7 +48,7 @@ namespace Elaborazione_dati_CSV
                 Visualizza();
             }     
             else
-                MessageBox.Show("I campi 'Mio valore' e 'Cancellazione Logica' sono già presenti", "ERRORE!");
+                MessageBox.Show("Impossibile inserire i campi 'Mio valore' e 'Cancellazione Logica'", "ERRORE!");
         }
         private void contacampi_Click(object sender, EventArgs e)
         {
