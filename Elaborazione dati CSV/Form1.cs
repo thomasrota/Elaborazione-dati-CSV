@@ -63,7 +63,7 @@ namespace Elaborazione_dati_CSV
             string valori = "";
             for (int i = 0; i < lMaxCampi.Length - 1; i++)
             {
-                valori += $"{lMaxCampi[i]} caratteri per {nomecampi[i]}, ";
+                valori += $"\n{lMaxCampi[i]} caratteri per {nomecampi[i]}";
             }
             MessageBox.Show($"La lunghezza massima del record è di {lMaxRecord} caratteri!");
             MessageBox.Show($"La lunghezza massima per ogni campo è di: {valori}");
